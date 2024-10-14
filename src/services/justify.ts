@@ -3,7 +3,7 @@
  *
  * @param text - The text to be justified.
  * @param lineLength - The maximum length of each line. Defaults to 80 characters.
- * @returns The justified text with each line fitting within the specified length.
+ * @returns {string} The justified text with each line fitting within the specified length.
  */
 export const justifyText = (text: string, lineLength: number = 80) => {
 	const words = text.split(" ")
@@ -28,7 +28,7 @@ export const justifyText = (text: string, lineLength: number = 80) => {
  *
  * @param line - The line of text to be justified.
  * @param lineLength - The desired length of the justified line.
- * @returns The justified line of text.
+ * @returns {string} The justified line of text.
  */
 const justifyLine = (line: string, lineLength: number) => {
 	if (line.length === 0) {

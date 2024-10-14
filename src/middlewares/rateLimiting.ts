@@ -1,5 +1,11 @@
 import { Request, Response, NextFunction } from "express"
 
+/**
+ * Interface representing the usage of a token.
+ *
+ * @property {number} count - The number of times the token has been used.
+ * @property {Date} lastRequestDate - The date and time when the token was last used.
+ */
 interface TokenUsage {
 	count: number
 	lastRequestDate: Date
@@ -7,8 +13,23 @@ interface TokenUsage {
 
 const MAX_WORDS_PER_DAY = 80000
 
+/**
+ * A map that tracks the usage of tokens.
+ *
+ * @type {Object.<string, TokenUsage>}
+ */
 const tokensUsageMap: { [key: string]: TokenUsage } = {}
 
+/**
+ * Middleware to enforce rate limiting based on word count per day.
+ *
+ * @param req - The incoming request object.
+ * @param res - The outgoing response object.
+ * @param next - The next middleware function in the stack.
+ * @returns {void}
+ * @throws Will send a 402 Payment Required response if the word limit is exceeded.
+ * @throws Will send a 400 Bad Request response if an error occurs during processing.
+ */
 const rateLimiting = (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const token = req.headers.authorization!.split(" ")[1]
