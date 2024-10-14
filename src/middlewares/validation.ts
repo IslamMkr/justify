@@ -11,3 +11,15 @@ export const validateEmail = (req: Request, res: Response, next: NextFunction) =
 
 	next()
 }
+
+export const validateText = (req: Request, res: Response, next: NextFunction) => {
+	const { text } = req.body
+
+	if (!text) {
+		console.error("Text is required")
+		res.status(400).json({ message: "Text is required" })
+		return
+	}
+
+	next()
+}
