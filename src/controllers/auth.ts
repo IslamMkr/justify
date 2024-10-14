@@ -1,8 +1,6 @@
 import { Request, Response } from "express"
 import jwt from "jsonwebtoken"
 
-const SECRET_KEY = process.env.SECRET_KEY!
-
 /**
  * Authenticates a user by generating a JWT token.
  *
@@ -15,7 +13,7 @@ export const authenticate = (req: Request, res: Response) => {
 	const { email } = req.body
 
 	try {
-		const token = jwt.sign({ email }, SECRET_KEY, { expiresIn: "1d" })
+		const token = jwt.sign({ email }, process.env.SECRET_KEY!, { expiresIn: "1d" })
 		res.status(200).json({ token })
 	} catch (error) {
 		console.log(error)

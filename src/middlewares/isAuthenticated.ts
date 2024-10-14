@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import jwt from "jsonwebtoken"
 
-const SECRET_KEY = process.env.SECRET_KEY!
-
 /**
  * Middleware to check if the request is authenticated.
  *
@@ -34,7 +32,7 @@ const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
 	}
 
 	try {
-		jwt.verify(token, SECRET_KEY)
+		jwt.verify(token, process.env.SECRET_KEY!)
 		next()
 	} catch (error) {
 		console.error(error)
