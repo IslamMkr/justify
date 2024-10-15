@@ -3,50 +3,40 @@ import { justifyText } from "../../services/justify"
 const serviceName = justifyText.name
 
 describe(`test ${serviceName} service`, () => {
-	it("should justify text when it exceeds the line length", () => {
-		const input = "This is a simple test of the text justification function."
-		const expectedOutput = `This  is  a  simple test of the text\njustification function.`
-
-		const result = justifyText(input, 40)
-		expect(result).toBe(expectedOutput)
+	it("should justify a short text without exceeding line length", () => {
+		const text = "This is a sample text to justify."
+		const expectedOutput = "This is a sample text to justify."
+		const justified = justifyText(text, 40)
+		expect(justified).toBe(expectedOutput)
 	})
 
-	it("should return the text as-is if it fits within the line length", () => {
-		const input = "This is a short text"
-		const result = justifyText(input, 80)
-
-		// No changes are expected, as the text fits within 80 characters
-		expect(result).toBe(input)
+	it("should justify text with line breaks at the specified length", () => {
+		const text = "This is a longer sample text that should be split across multiple lines for proper justification."
+		const expectedOutput =
+			"This is a longer sample text that should\n" +
+			"be   split  across  multiple  lines  for\n" +
+			"proper justification."
+		const justified = justifyText(text, 40)
+		expect(justified).toBe(expectedOutput)
 	})
 
-	it("should handle long single words without splitting them", () => {
-		const input = "Supercalifragilisticexpialidocious is a long word"
-		const expectedOutput = `Supercalifragilisticexpialidocious is a\nlong word`
-
-		const result = justifyText(input, 40)
-		expect(result).toBe(expectedOutput)
+	it("should correctly handle a single long word", () => {
+		const text = "Supercalifragilisticexpialidocious"
+		const expectedOutput = "Supercalifragilisticexpialidocious"
+		const justified = justifyText(text, 40)
+		expect(justified).toBe(expectedOutput)
 	})
 
-	it("should handle text with exactly 80 characters", () => {
-		const input = "This text is exactly eighty characters long and fits perfectly in a line."
-		const result = justifyText(input, 80)
-
-		// No changes expected, since it fits exactly within the line length
-		expect(result).toBe(input)
+	it("should handle text that perfectly fits within the line length", () => {
+		const text = "This line fits perfectly."
+		const expectedOutput = "This line fits perfectly."
+		const justified = justifyText(text, 25)
+		expect(justified).toBe(expectedOutput)
 	})
 
-	it("should handle an empty string", () => {
-		const result = justifyText("", 80)
-
-		// Empty input should result in empty output
-		expect(result).toBe("")
-	})
-
-	it("should handle multiple lines of text with uneven line lengths", () => {
-		const input = "This is a test of multiple lines being justified into specific lengths"
-		const expectedOutput = `This  is  a  test  of  multiple lines\nbeing justified into specific lengths`
-
-		const result = justifyText(input, 40)
-		expect(result).toBe(expectedOutput)
+	it("should return an empty string for empty input", () => {
+		const text = ""
+		const justified = justifyText(text, 40)
+		expect(justified).toBe("")
 	})
 })

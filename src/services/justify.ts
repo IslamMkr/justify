@@ -11,16 +11,22 @@ export const justifyText = (text: string, lineLength: number = 80) => {
 	let justifiedText = ""
 
 	words.forEach((word) => {
-		if ((currentLine + word).length <= lineLength) {
+		if ((currentLine + word).length < lineLength) {
 			currentLine += word + " "
-		} else {
+		} else if ((currentLine + word).length > lineLength) {
 			justifiedText += justifyLine(currentLine.trim(), lineLength) + "\n"
 			currentLine = word + " "
+		} else {
+			justifiedText += currentLine + word + "\n"
+			currentLine = ""
 		}
 	})
 
-	justifiedText += currentLine.trim()
-	return justifiedText
+	justifiedText += currentLine
+
+	console.log(justifiedText)
+
+	return justifiedText.trim()
 }
 
 /**
@@ -31,19 +37,25 @@ export const justifyText = (text: string, lineLength: number = 80) => {
  * @returns {string} The justified line of text.
  */
 const justifyLine = (line: string, lineLength: number) => {
-	if (line.length === 0) {
-		return line
-	}
+	const words = line.split(" ")
+	const totalSpaces = lineLength - words.join("").length
+	const spacesPerWord = Math.floor(totalSpaces / (words.length - 1))
 
-	let spacesToAdd = lineLength - line.length
-	let words = line.split(" ")
+	let spacingLeft = totalSpaces - spacesPerWord * (words.length - 1)
+	let justifiedLine = ""
 
-	while (spacesToAdd > 0 && words.length > 1) {
-		for (let i = 0; i < words.length - 1 && spacesToAdd > 0; i++) {
-			words[i] += " "
-			spacesToAdd--
+	words.forEach((word, index) => {
+		if (index !== words.length - 1) {
+			justifiedLine += word
+			justifiedLine += " ".repeat(spacesPerWord)
+			if (spacingLeft > 0) {
+				justifiedLine += " "
+				spacingLeft--
+			}
+		} else {
+			justifiedLine += word
 		}
-	}
+	})
 
-	return words.join(" ")
+	return justifiedLine
 }
