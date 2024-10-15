@@ -44,7 +44,7 @@ const rateLimiting = (req: Request, res: Response, next: NextFunction) => {
 			}
 		}
 
-		const wordCount = req.body.text!.split(" ").length
+		const wordCount = req.body.split(" ").length
 
 		if (tokensUsageMap[token].count + wordCount > MAX_WORDS_PER_DAY) {
 			console.error("Payment Required: Word limit exceeded")

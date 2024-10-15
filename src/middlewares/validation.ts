@@ -35,7 +35,8 @@ export const validateAuthRequestPayload = (req: Request, res: Response, next: Ne
  * @param next - The next middleware function.
  */
 export const validateJustifyRequestPauload = (req: Request, res: Response, next: NextFunction) => {
-	const { text, lineLength } = req.body
+	const text = req.body as string
+	const lineLength = req.query.length ? parseInt(req.query.length as string, 10) : undefined
 
 	if (!text) {
 		console.error("Text is required")
