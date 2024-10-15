@@ -10,7 +10,7 @@ import jwt from "jsonwebtoken"
  * @throws Will return a 400 status code and an error message if token generation fails.
  */
 export const authenticate = (req: Request, res: Response) => {
-	const { email } = req.body
+	const { email } = req.body as { email: string }
 
 	try {
 		const token = jwt.sign({ email }, process.env.SECRET_KEY!, { expiresIn: "1d" })
