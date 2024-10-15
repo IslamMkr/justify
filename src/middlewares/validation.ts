@@ -9,16 +9,16 @@ import { isValidEmail } from "../utils/email"
  * @param res - The response object.
  * @param next - The next middleware function.
  */
-export const validateEmail = (req: Request, res: Response, next: NextFunction) => {
+export const validateAuthRequestPayload = (req: Request, res: Response, next: NextFunction) => {
 	const { email } = req.body
 
-	if (!email) {
+	if (!email || email.trim() === "") {
 		console.error("Email is required")
 		res.status(400).json({ message: "Email is required" })
 		return
 	}
 
-	if (!isValidEmail(email)) {
+	if (typeof email !== "string" || !isValidEmail(email)) {
 		console.error("Invalid email format")
 		res.status(400).json({ message: "Invalid email format" })
 		return
@@ -34,12 +34,24 @@ export const validateEmail = (req: Request, res: Response, next: NextFunction) =
  * @param res - The response object.
  * @param next - The next middleware function.
  */
-export const validateText = (req: Request, res: Response, next: NextFunction) => {
-	const { text } = req.body
+export const validateJustifyRequestPauload = (req: Request, res: Response, next: NextFunction) => {
+	const { text, lineLength } = req.body
 
 	if (!text) {
 		console.error("Text is required")
 		res.status(400).json({ message: "Text is required" })
+		return
+	}
+
+	if (typeof text !== "string" || text.trim() === "") {
+		console.error("Invalid text format")
+		res.status(400).json({ message: "Invalid text format" })
+		return
+	}
+
+	if (lineLength !== undefined && (typeof lineLength !== "number" || lineLength < 1)) {
+		console.error("Invalid line length format")
+		res.status(400).json({ message: "Invalid line length format" })
 		return
 	}
 
