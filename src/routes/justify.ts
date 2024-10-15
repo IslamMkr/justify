@@ -1,13 +1,24 @@
 import { Router } from "express"
 
-import { justify } from "../controllers/justify"
+import { justify, justifyWithLength } from "../controllers/justify"
 
 import isAuthenticated from "../middlewares/isAuthenticated"
 import rateLimiting from "../middlewares/rateLimiting"
-import { validateJustifyRequestPauload } from "../middlewares/validation"
+import { validateJustifyLengthRequestPayload, validateJustifyRequestPayload } from "../middlewares/validation"
 
 const justifyRoutes = Router()
 
-justifyRoutes.post("/", isAuthenticated, validateJustifyRequestPauload, rateLimiting, justify)
+// POST /api/justify
+justifyRoutes.post("/", isAuthenticated, validateJustifyRequestPayload, rateLimiting, justify)
+
+// POST /api/justify/:length
+justifyRoutes.post(
+	"/:length",
+	isAuthenticated,
+	validateJustifyRequestPayload,
+	validateJustifyLengthRequestPayload,
+	rateLimiting,
+	justifyWithLength
+)
 
 export default justifyRoutes
