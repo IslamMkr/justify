@@ -4,10 +4,10 @@ import { justify } from "../controllers/justify"
 
 import isAuthenticated from "../middlewares/isAuthenticated"
 import rateLimiting from "../middlewares/rateLimiting"
-import { validateText } from "../middlewares/validation"
+import { validateJustifyRequestPauload } from "../middlewares/validation"
 
 const justifyRoutes = Router()
 
-justifyRoutes.post("/", isAuthenticated, validateText, rateLimiting, justify)
+justifyRoutes.post("/", isAuthenticated, validateJustifyRequestPauload, rateLimiting, justify)
 
 export default justifyRoutes

@@ -1,9 +1,9 @@
 import { Router } from "express"
 import { authenticate } from "../controllers/auth"
-import { validateEmail } from "../middlewares/validation"
+import { validateAuthRequestPayload } from "../middlewares/validation"
 
 const authRoutes = Router()
 
-authRoutes.post("/", validateEmail, authenticate)
+authRoutes.post("/", validateAuthRequestPayload, authenticate)
 
 export default authRoutes
