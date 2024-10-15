@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express"
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+import { isValidEmail } from "../utils/email"
 
 /**
  * Middleware to validate the presence of an email in the request body.
@@ -19,7 +18,7 @@ export const validateEmail = (req: Request, res: Response, next: NextFunction) =
 		return
 	}
 
-	if (!EMAIL_REGEX.test(email)) {
+	if (!isValidEmail(email)) {
 		console.error("Invalid email format")
 		res.status(400).json({ message: "Invalid email format" })
 		return
