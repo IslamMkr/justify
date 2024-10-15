@@ -34,9 +34,8 @@ export const validateAuthRequestPayload = (req: Request, res: Response, next: Ne
  * @param res - The response object.
  * @param next - The next middleware function.
  */
-export const validateJustifyRequestPauload = (req: Request, res: Response, next: NextFunction) => {
+export const validateJustifyRequestPayload = (req: Request, res: Response, next: NextFunction) => {
 	const text = req.body as string
-	const lineLength = req.query.length ? parseInt(req.query.length as string, 10) : undefined
 
 	if (!text) {
 		console.error("Text is required")
@@ -50,7 +49,32 @@ export const validateJustifyRequestPauload = (req: Request, res: Response, next:
 		return
 	}
 
-	if (lineLength !== undefined && (typeof lineLength !== "number" || lineLength < 1)) {
+	next()
+}
+
+/**
+ * Middleware to validate the request payload for justifying text length.
+ *
+ * This middleware checks if the `length` parameter is present in the request,
+ * and if it is a valid number greater than 0. If the validation fails, it sends
+ * a 400 status response with an appropriate error message.
+ *
+ * @param req - The request object.
+ * @param res - The response object.
+ * @param next - The next middleware function.
+ *
+ * @returns void
+ */
+export const validateJustifyLengthRequestPayload = (req: Request, res: Response, next: NextFunction) => {
+	const { length } = req.params
+
+	if (!length) {
+		console.error("Line length is required")
+		res.status(400).json({ message: "Line length is required" })
+		return
+	}
+
+	if (isNaN(Number(length)) || Number(length) < 1) {
 		console.error("Invalid line length format")
 		res.status(400).json({ message: "Invalid line length format" })
 		return

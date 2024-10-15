@@ -11,12 +11,11 @@ describe(`test ${middlewareName} middleware`, () => {
 	let mockSend: jest.Mock
 
 	beforeEach(() => {
-		req = { headers: { authorization: "Bearer validtoken" }, body: { text: "Hello world" } }
+		req = { headers: { authorization: "Bearer validtoken" }, body: "Hello world" }
 		mockSend = jest.fn()
 		mockStatus = jest.fn().mockReturnValue({ send: mockSend })
 		res = { status: mockStatus }
 		next = jest.fn()
-
 		jest.clearAllMocks()
 	})
 
@@ -39,7 +38,7 @@ describe(`test ${middlewareName} middleware`, () => {
 		// Simulate that token usage is near the limit
 		req.headers = req.headers || {}
 		req.headers.authorization = "Bearer validtoken"
-		req.body.text = "word ".repeat(80001) // Simulate a body with more than 80,000 words
+		req.body = "word ".repeat(80001) // Simulate a body with more than 80,000 words
 
 		rateLimiting(req as Request, res as Response, next)
 
