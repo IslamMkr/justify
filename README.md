@@ -112,11 +112,12 @@ Avant d'installer et de lancer le projet, assurez-vous d'avoir les éléments su
   **Requête :**
 
   - Header : `Authorization: Bearer <token>`
-  - Body : Le texte à justifier
+  - Body : Le texte à justifier + la longueur des lignes (optionnel)
 
   ```json
   {
-  	"text": "Write your text here ..."
+  	"text": "Write your text here ...",
+   "lineLength": 40 // Optionnal
   }
   ```
 
