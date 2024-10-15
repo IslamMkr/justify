@@ -112,13 +112,29 @@ Avant d'installer et de lancer le projet, assurez-vous d'avoir les éléments su
   **Requête :**
 
   - Header : `Authorization: Bearer <token>`
-  - Body : Le texte à justifier + la longueur des lignes (optionnel)
+  - Body : Le texte à justifier
 
-  ```json
-  {
-  	"text": "Write your text here ...",
-   "lineLength": 40 // Optionnal
-  }
+  ```text
+  route: /api/justify
+  body: Your text to justify ...
+  ```
+
+  **Réponse :**
+  Le texte justifié avec chaque ligne faisant exactement 80 caractères.
+
+- **POST** `/api/justify/:length`
+
+  Justifie le texte en entrée pour correspondre à une longueur de ligne donnée.
+
+  **Requête :**
+
+  - Header : `Authorization: Bearer <token>`
+  - Body : Le texte à justifier
+  - Paramètre: La longueur des lignes
+
+  ```text
+  route: /api/justify/150
+  body: Your text here to justify ...
   ```
 
   **Réponse :**
